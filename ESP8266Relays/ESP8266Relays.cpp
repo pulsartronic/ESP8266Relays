@@ -4,11 +4,11 @@
  * Contructor. Here's the program entry point
  */
 ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
+	Serial.begin(9600);
+
 	// ////////////////////////////////////////////////////////////////////////////////
 	// DEFAULT CONFIGURATION //////////////////////////////////////////////////////////
 	// Change these values as needed, most of them can be modified from the web interface
-	
-	Serial.begin(9600);
 		
 	// TODO:: make checks against this
 	bool filesystemInitilized = LittleFS.begin();
@@ -24,13 +24,21 @@ ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
 		// //////////////////////////////////////////////////////////////////////
 		// RELAYS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Add as many relays as your hardware supports
-		Relays::Relay* relay0 = new Relays::Relay(this->relays, "0");
-		this->relays->nodes->set(relay0->name, relay0);
-		relay0->settings.title = "living room";
-		relay0->settings.pin = 4; // which pin is going to go HIGH/LOW to handle a digital based relay
-		relay0->settings.nc = 0;  // nc = 0 Normally Closed , nc = 1 Normally Open, it is only to correctly show ON/OFF in the interface
-		relay0->touch->pin = 5;   // which pin is going to be read when using a digital component like a capacitive touch
+		Relays::Relay* relay_0 = new Relays::Relay(this->relays, "0");
+		this->relays->nodes->set(relay_0->name, relay_0);
+		relay_0->settings.title = "living room";
+		relay_0->settings.pin = 4; // which pin is going to go HIGH/LOW to handle a digital based relay
+		relay_0->settings.nc = 0;  // nc = 0 Normally Closed , nc = 1 Normally Open, it is only to correctly show ON/OFF in the interface
+		relay_0->touch->pin = 5;   // which pin is going to be read when using a digital component like a capacitive touch
+		
+		// Relays::Relay* relay_1 = new Relays::Relay(this->relays, "1");
+		// this->relays->nodes->set(relay_1->name, relay_1);
+		// relay_1->settings.title = "Garage";
+		// relay_1->settings.pin = 4; // which pin is going to go HIGH/LOW to handle a digital based relay
+		// relay_1->settings.nc = 0;  // nc = 0 Normally Closed , nc = 1 Normally Open, it is only to correctly show ON/OFF in the interface
+		// relay_1->touch->pin = 16;   // which pin is going to be read when using a digital component like a capacitive touch
 	
+	// ////////////////////////////////////////////////////////////////
 	// Http and WebSockets ports this app is going to listen
 	// these values cannot be changed from the configuration interface
 	this->settings.hport = 80;
@@ -40,11 +48,17 @@ ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
 	this->wifi->ap->settings.ssid = "ESP8266 RELAYS " + String(ESP.getChipId());
 	this->wifi->ap->settings.pass = "12345678";
 
-	// Maybe you need to set it here
+	// ////////////////////////////////////////////////////////////////
+	// WiFi Client, Maybe you need to set it here
 	// this->wifi->client->settings.ssid = "";
 	// this->wifi->client->settings.password = "";
 	
+	// ////////////////////////////////////////////////////////////////
+	// NTP, Network Time Protocol
+	this->system->ntp->settings.host = "pool.ntp.org";
+	this->system->ntp->settings.tz = 341; // TZ_Europe_London
 
+	// ////////////////////////////////////////////////////////////////
 	// Default password for the configuration interface
 	// SHA256("adminadmin") change "adminadmin" by "user+pass"
 	this->key = new byte[32] {
@@ -53,8 +67,6 @@ ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
 		0x44, 0xbb, 0x73, 0xf2, 0x03, 0x80, 0x87, 0x6c,
 		0xb0, 0x5d, 0x1f, 0x37, 0x53, 0x7b, 0x78, 0x92
 	};
-	// DEFAULT CONFIGURATION //////////////////////////////////////////////////////////
-	// ////////////////////////////////////////////////////////////////////////////////
 }
 
 ESP8266Relays::~ESP8266Relays() {
