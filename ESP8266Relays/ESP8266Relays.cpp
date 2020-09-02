@@ -21,22 +21,29 @@ ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
 
 	this->relays = new Relays(this, "relays");
 	this->nodes->set(this->relays->name, this->relays);
+		// //////////////////////////////////////////////////////////////////////
+		// RELAYS :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		// Add as many relays as your hardware supports
 		Relays::Relay* relay0 = new Relays::Relay(this->relays, "0");
 		this->relays->nodes->set(relay0->name, relay0);
 		relay0->settings.title = "living room";
-		relay0->settings.pin = 4;
-		relay0->settings.nc = 0; // nc = 0 Normally Closed , nc = 1 Normally Open
-		relay0->touch->pin = 16;
-		
-	// Http and WebSockets ports this app will use
+		relay0->settings.pin = 4; // which pin is going to go HIGH/LOW to handle a digital based relay
+		relay0->settings.nc = 0;  // nc = 0 Normally Closed , nc = 1 Normally Open, it is only to correctly show ON/OFF in the interface
+		relay0->touch->pin = 5;   // which pin is going to be read when using a digital component like a capacitive touch
+	
+	// Http and WebSockets ports this app is going to listen
 	// these values cannot be changed from the configuration interface
 	this->settings.hport = 80;
 	this->settings.wport = 3498;
 
-	// Default credentials for WiFi Access Point
+	// Default credentials for the WiFi Access Point
 	this->wifi->ap->settings.ssid = "ESP8266 RELAYS " + String(ESP.getChipId());
 	this->wifi->ap->settings.pass = "12345678";
+
+	// Maybe you need to set it here
+	// this->wifi->client->settings.ssid = "";
+	// this->wifi->client->settings.password = "";
+	
 
 	// Default password for the configuration interface
 	// SHA256("adminadmin") change "adminadmin" by "user+pass"

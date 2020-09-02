@@ -29,11 +29,8 @@ void WIFI::Client::setup() {
 	if (this->settings.ssid.equals("")) {
 		WiFi.begin();
 	} else {
-		//DEBUG.println("Connecting to: " + this->settings.ssid);
 		WiFi.begin(this->settings.ssid.c_str(), this->settings.pass.c_str());
 	}
-
-	//DEBUG.println("Starting WiFi Client ... OK");
 }
 
 void WIFI::Client::loop() {
@@ -198,7 +195,6 @@ void WIFI::Client::save(JsonObject& params, JsonObject& response, JsonObject& br
 
 	bool hasSSID = params.containsKey("ssid");
 	bool hasPASS = params.containsKey("pass");
-	//DEBUG.println("hasSSID: " + String(hasSSID) + " hasPASS: " + String(hasPASS));
 	this->credentials = hasSSID && hasPASS;
 	if (this->credentials) {
 		this->lphase = clock64.mstime();
