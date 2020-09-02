@@ -90,7 +90,8 @@ class WIFI : public Node {
 
 	class Settings {
 		public:
-		int mode = PHY_MODE_11B;
+		// int mode = WIFI_AP_STA;
+		int bgn = PHY_MODE_11B;
 	};
 
 	Client* client = NULL;

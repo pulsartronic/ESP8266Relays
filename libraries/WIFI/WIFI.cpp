@@ -23,7 +23,7 @@ void WIFI::setup() {
 }
 
 void WIFI::applySettings() {
-	wifi_set_phy_mode((phy_mode_t) this->settings.mode);
+	wifi_set_phy_mode((phy_mode_t) this->settings.bgn);
 };
 
 void WIFI::loop() {
@@ -35,14 +35,14 @@ void WIFI::state(JsonObject& params, JsonObject& response, JsonObject& broadcast
 	JsonObject object = this->rootIT(response);
 	JsonObject state = object.createNestedObject("state");
 	this->JSON(state);
-	state["mode"] = (int) wifi_get_phy_mode();
+	state["bgn"] = (int) wifi_get_phy_mode();
 }
 
 void WIFI::fromJSON(JsonObject& params) {
-	if (params.containsKey("mode")) { this->settings.mode = params["mode"]; }
+	if (params.containsKey("bgn")) { this->settings.bgn = params["bgn"]; }
 }
 
 void WIFI::JSON(JsonObject& wifi) {
-	wifi["mode"] = this->settings.mode;
+	wifi["bgn"] = this->settings.bgn;
 }
 

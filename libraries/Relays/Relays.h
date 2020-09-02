@@ -4,7 +4,7 @@
 #include <ArduinoJson.h>
 #include <Node.h>
 #include <System.h>
-#include <RS232.h>
+#include <Schedules.h>
 
 #ifndef __Relays__
 #define __Relays__
@@ -38,6 +38,7 @@ class Relays : public Node {
 			int touch = -1;
 		};
 
+		Schedules* schedules = NULL;
 		Touch* touch = NULL;
 		Settings settings;
 
@@ -47,13 +48,14 @@ class Relays : public Node {
 		void loop();
 
 		void toggle();
+		void set(int TO);
 		void turn(JsonObject& params, JsonObject& response, JsonObject& broadcast);
+		void onEvent(Schedules::Schedule::Event* event);
 
 		virtual void applySettings();
 		virtual void state(JsonObject& params, JsonObject& response, JsonObject& broadcast);
 		virtual void fromJSON(JsonObject& params);
 		virtual void JSON(JsonObject& params);
-		virtual void getPing(JsonObject& state);		
 	};
 
 	Relays(Node* parent, const char* name);
