@@ -1,6 +1,7 @@
 # ESP8266 Programable WiFi Digital Relay Switch
 
-Instructions on how to make it work can be found here https://www.hackster.io/pulsartronic/programmable-wifi-digital-relay-switch-esp8266-app-code-6b5bf8
+Instructions on how to make it work can be found here https://www.hackster.io/pulsartronic/programmable-wifi-digital-relay-switch-esp8266-app-code-6b5bf8  
+A single relay is used in that tutorial, yet it is possible to use as many as your hardware supports
 
 # Contribute
 An open source project is a forever Work In Progress. Feel free to be constructive.
