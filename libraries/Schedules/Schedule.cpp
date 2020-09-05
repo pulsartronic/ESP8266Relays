@@ -32,6 +32,7 @@ void Schedules::Schedule::fromJSON(JsonObject& params) {
 	int dlength = days.size();
 	for (int i = 0; i < min(7, dlength); i++) {
 		this->days[i] = days[i];
+		Serial.println(String(this->days[i]));
 	}
 	
 	JsonArray events = params["events"].as<JsonArray>();
@@ -61,23 +62,26 @@ void Schedules::Schedule::loop() {
 	if (1000u <= (ms - this->lastTic)) {
 		this->lastTic = ms;
 		time_t timestamp = time(nullptr);
-		tm* ltm = localtime(&timestamp);
+		tm ltm = *localtime(&timestamp);
 		if ((60 * 60 * 24) < timestamp) {
-			bool wactive = this->days[ltm->tm_wday - 1];
+			bool wactive = this->days[ltm.tm_wday];
 			if (wactive) {
 				for (uint32_t i = 0ul; i < this->events->length; i++) {
 					Event* event = this->events->get(i);
 					if (0 == event->nday) {
 						event->updateDay(this->days, 0);
+						Serial.println("Updated day: " + String(event->nday) + " tm_mday: " + String(ltm.tm_mday));
 					}
-					if (event->nday == ltm->tm_mday) {
+					if (event->nday == ltm.tm_mday) {
 						uint16_t et = 60u * event->hour + event->minute;
-						uint16_t at = 60u * ltm->tm_hour + ltm->tm_min;
+						uint16_t at = 60u * ltm.tm_hour + ltm.tm_min;
+						Serial.println("et: " + String(et) + " at: " + String(at));
 						if (et <= at) {
 							if (et > (at - 1)) {
 								this->schedules->onEvent(event);
 							}
 							event->updateDay(this->days, 1);
+							Serial.println("Shoted day: " + String(event->nday) + " tm_mday: " + String(ltm.tm_mday));
 						}
 					}
 				}

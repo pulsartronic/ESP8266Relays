@@ -20,11 +20,11 @@ void Schedules::Schedule::Event::fromJSON(JsonObject& params) {
 
 void Schedules::Schedule::Event::updateDay(bool* days, int offset) {
 	time_t ltimestamp = time(nullptr);
-	tm* lltm = localtime(&ltimestamp);
+	tm lltm = *localtime(&ltimestamp);
 
 	int total = offset;
 	for (int j = 0; j < 7; j++) {
-		bool nwactive = days[(lltm->tm_wday + j) % 7];
+		bool nwactive = days[(lltm.tm_wday + offset + j) % 7];
 		if (!nwactive) {
 			total += 1;
 		} else {
@@ -32,7 +32,7 @@ void Schedules::Schedule::Event::updateDay(bool* days, int offset) {
 		}
 	}
 	time_t timestamp = ltimestamp + total * (60 * 60 * 24);
-	tm* ltm = localtime(&timestamp);
-	this->nday = ltm->tm_mday;
+	tm ltm = *localtime(&timestamp);
+	this->nday = ltm.tm_mday;
 }
 
