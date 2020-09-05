@@ -29,7 +29,7 @@ ESP8266Relays::ESP8266Relays() : NetworkNode(NULL, "root") {
 		relay_0->settings.title = "living room";
 		relay_0->settings.pin = 5; // which GPIOx pin is going to go HIGH/LOW to handle a digital based relay
 		relay_0->settings.nc = 0;  // nc = 0 Normally Closed , nc = 1 Normally Open, it is only to correctly show ON/OFF in the interface
-		relay_0->touch->pin = 4;   // which GPIOx pin is going to be read when using a digital component like a capacitive touch
+		relay_0->touch->pin = 15;   // which GPIOx pin is going to be read when using a digital component like a capacitive touch
 		
 		// Relays::Relay* relay_1 = new Relays::Relay(this->relays, "1");
 		// this->relays->nodes->set(relay_1->name, relay_1);

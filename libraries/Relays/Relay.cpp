@@ -57,6 +57,18 @@ void Relays::Relay::fromJSON(JsonObject& params) {
 	if (params.containsKey("touch")) { this->touch->pin = params["touch"]; }
 }
 
+void Relays::Relay::turn(JsonObject& params, JsonObject& response, JsonObject& broadcast) {
+	int HI = params["hi"];
+	if (0 <= this->settings.pin) {
+		digitalWrite(this->settings.pin, HI);
+		yield();
+		JsonObject object = this->rootIT(broadcast);
+		JsonObject state = object.createNestedObject("state");
+		this->JSON(state);
+		state["hi"] = digitalRead(this->settings.pin);
+	}
+}
+
 void Relays::Relay::toggle() {
 	if (0 <= this->settings.pin) {
 		int status = digitalRead(this->settings.pin);
@@ -82,14 +94,4 @@ void Relays::Relay::set(int TO) {
 void Relays::Relay::onEvent(Schedules::Schedule::Event* event) {
 	this->set(event->status);
 }
-
-void Relays::Relay::turn(JsonObject& params, JsonObject& response, JsonObject& broadcast) {
-	int HI = params["hi"];
-	if (0 <= this->settings.pin) {
-		digitalWrite(this->settings.pin, HI);
-		yield();
-		this->state(params, broadcast, broadcast);
-	}
-}
-
 
