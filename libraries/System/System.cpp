@@ -52,7 +52,7 @@ void System::upgrade(JsonObject& params, JsonObject& response, JsonObject& broad
 	JsonObject object = this->rootIT(response);
 	JsonObject upgrading = object.createNestedObject("upgrading");
 
-	DEBUG.println("UPGRADING ::::::");
+	//DEBUG.println("UPGRADING ::::::");
 	String host = this->settings.vurl + "/version.php";
 	WiFiClient client;
 	HTTPClient http;
@@ -62,9 +62,9 @@ void System::upgrade(JsonObject& params, JsonObject& response, JsonObject& broad
 			if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
 				String payload = http.getString();
 				int last = payload.toInt();
-				DEBUG.println("payload: " + payload);
+				//DEBUG.println("payload: " + payload);
 				if (last > VERSION) {
-					DEBUG.println("Last is greather than actual, UPGRADING !!!");
+					//DEBUG.println("Last is greather than actual, UPGRADING !!!");
 					WiFiClient client;
 					ESPhttpUpdate.setLedPin(LED_BUILTIN, LOW);
 					ESPhttpUpdate.rebootOnUpdate(true);
@@ -76,11 +76,11 @@ void System::upgrade(JsonObject& params, JsonObject& response, JsonObject& broad
 						break;
 						case HTTP_UPDATE_NO_UPDATES:
 							upgrading["error"] = 10;
-							DEBUG.println("HTTP_UPDATE_NO_UPDATES");
+							//DEBUG.println("HTTP_UPDATE_NO_UPDATES");
 						break;
 						case HTTP_UPDATE_OK:
 							upgrading["error"] = false;
-							DEBUG.println("HTTP_UPDATE_OK");
+							//DEBUG.println("HTTP_UPDATE_OK");
 						break;
 						default:
 							upgrading["error"] = 15;
@@ -94,7 +94,7 @@ void System::upgrade(JsonObject& params, JsonObject& response, JsonObject& broad
 			}
 		} else {
 			upgrading["error"] = 13;
-			DEBUG.println(String(httpCode));
+			//DEBUG.println(String(httpCode));
 			//DEBUG.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
 		}
 		http.end();

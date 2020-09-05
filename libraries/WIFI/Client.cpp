@@ -41,7 +41,6 @@ void WIFI::Client::loop() {
 		this->lphase = now;
 		if (!this->settings.ssid.equals("")) {				
 			bool connected = (WL_CONNECTED == WiFi.status());
-			// DEBUG.println("Checking connection: " + String(connected));
 			if (!connected) {
 				this->tryConnection = !this->tryConnection;
 				if (this->tryConnection) {

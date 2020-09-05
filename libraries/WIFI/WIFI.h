@@ -1,5 +1,3 @@
-#include <DebugM.h>
-
 #include <Node.h>
 #include <DNSServer.h>
 #include <SystemClock.h>
@@ -90,7 +88,7 @@ class WIFI : public Node {
 
 	class Settings {
 		public:
-		// int mode = WIFI_AP_STA;
+		int mode = WIFI_AP_STA;
 		int bgn = PHY_MODE_11B;
 	};
 

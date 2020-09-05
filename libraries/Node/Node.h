@@ -1,4 +1,3 @@
-#include <DebugM.h>
 #include <Arduino.h>
 #include <ArduinoJson.h>
 #include <KeyValueMap.h>
@@ -60,21 +59,14 @@ class Node {
 			file.close();
 			DynamicJsonDocument jsonDocument(1024); // TODO:: unharcode
 			DeserializationError error = deserializeJson(jsonDocument, jsonSTR);
-
-			String log = filename + " : " + jsonSTR;
-			// DEBUG.println(log);
-
 			if (!error) {
-				// Serial1.println("loaded: " + this->name + " : "+ jsonSTR);
 				JsonObject loadedJSON = jsonDocument.as<JsonObject>();
 				this->fromJSON(loadedJSON);
 			} else {
-				DEBUG.println("Node.readFile() : DeserializationError");
-				DEBUG.println(jsonSTR);
+				// debug ?
 			}
 		} else {
-			// String log = "filename does not exists: " + filename;
-			// DEBUG.println(log);
+			// debug ?
 		}
 	}
 
@@ -107,8 +99,6 @@ class Node {
 	virtual void oncommand(JsonObject& params, JsonObject& response, JsonObject& broadcast) {
 		String paramsSTR = "";
 		serializeJson(params, paramsSTR);
-		// Serial.println(this->name + " " + paramsSTR);
-
 		for (JsonPair kv : params) {
 			const char* ckey = kv.key().c_str();
 			JsonObject iparams = kv.value().as<JsonObject>();

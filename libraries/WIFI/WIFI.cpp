@@ -14,7 +14,6 @@ WIFI::~WIFI() {
 }
 
 void WIFI::setup() {
-	// WiFiMode_t mode = WiFi.getMode();
 	WiFi.mode(WIFI_AP_STA);
 	this->applySettings();
 
@@ -36,6 +35,7 @@ void WIFI::state(JsonObject& params, JsonObject& response, JsonObject& broadcast
 	JsonObject state = object.createNestedObject("state");
 	this->JSON(state);
 	state["bgn"] = (int) wifi_get_phy_mode();
+	state["mode"] = WiFi.getMode();
 }
 
 void WIFI::fromJSON(JsonObject& params) {
@@ -44,5 +44,6 @@ void WIFI::fromJSON(JsonObject& params) {
 
 void WIFI::JSON(JsonObject& wifi) {
 	wifi["bgn"] = this->settings.bgn;
+	wifi["mode"] = this->settings.mode;
 }
 
