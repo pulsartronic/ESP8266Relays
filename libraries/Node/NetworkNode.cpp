@@ -43,7 +43,7 @@ void NetworkNode::applySettings() {
 	// Windows Captive Portal
 	this->httpServer->on(String(F("/fwlink")), std::bind(&NetworkNode::html, this));
 	// iOS Captive Portal ????
-	this->httpServer->on(String(F("/hotspot-detect.html")), std::bind(&HTTPServer::html, this));
+	this->httpServer->on(String(F("/hotspot-detect.html")), std::bind(&NetworkNode::html, this));
 
 	this->httpServer->on(F("/u"), std::bind(&NetworkNode::userHTTP, this));
 	this->httpServer->on(F("/s"), std::bind(&NetworkNode::sessionHTTP, this));
