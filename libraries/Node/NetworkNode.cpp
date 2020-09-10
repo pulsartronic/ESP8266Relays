@@ -40,7 +40,7 @@ void NetworkNode::applySettings() {
 	this->httpServer->onNotFound (std::bind(&NetworkNode::handleNotFound, this));
 	// Android Captive Portal
 	this->httpServer->on(String(F("/generate_204")), std::bind(&NetworkNode::html, this));
-	// Windows Captive Portal
+	// Windows Captive Portal ????
 	this->httpServer->on(String(F("/fwlink")), std::bind(&NetworkNode::html, this));
 	// iOS Captive Portal ????
 	this->httpServer->on(String(F("/hotspot-detect.html")), std::bind(&NetworkNode::html, this));
